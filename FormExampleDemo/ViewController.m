@@ -95,14 +95,14 @@ static NSString *const cellID = @"cellID_pageHorizon";
 - (void)addTaskViewWithIndexPathItemModel:(ScheduleItemModel*)itemModel{
     PageHorizontalCollectionViewCell * cell  = (PageHorizontalCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:itemModel.indexPath];
     if (cell!=nil) {
-        ScheduleView * taskView = [[ScheduleView alloc]initWithFrame:CGRectZero userType:UserType_MR];
+        ScheduleView * taskView = [[ScheduleView alloc]initWithFrame:CGRectMake(cell.frame.origin.x,cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height * itemModel.timeLength) userType:UserType_MR];
         [self.collectionView addSubview:taskView];
-        [taskView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(cell);
-            make.right.equalTo(cell);
-            make.top.equalTo(cell);
-            make.height.mas_equalTo(cell.frame.size.height * itemModel.timeLength);
-        }];
+//        [taskView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(cell);
+//            make.right.equalTo(cell);
+//            make.top.equalTo(cell);
+//            make.height.mas_equalTo(cell.frame.size.height * itemModel.timeLength);
+//        }];
         BOOL isCover = [self chargeDifferentView:taskView];
         if (isCover) {
             NSLog(@"存在覆盖的view");
