@@ -45,6 +45,7 @@ block(object); \
 @property(nonatomic,assign)UserType logingUserType;///<登录用户的角色
 
 @property(nonatomic,assign)BOOL isOutBorderDraging;///<是否越界
+
 @end
 
 
@@ -54,8 +55,11 @@ block(object); \
     self = [super initWithFrame:frame];
     if (self) {
         _logingUserType = userType;
+        
         self.lastHeight = frame.size.height;
+        
         self.isOutBorderDraging = NO;
+        
         [self setSubUI];
     }
     return self;
@@ -193,9 +197,16 @@ block(object); \
     switch (longGesture.state) {
         case UIGestureRecognizerStateBegan: {
             NSLog(@"长按显示执行、删除按钮");
-            [self updateTaskViewLongpressState:self.itemModel.taskType];
-            [self.bottomLine setHidden:YES];
-            
+            if (self.logingUserType == UserType_MR) {
+                
+                [self updateTaskViewLongpressState:self.itemModel.taskType];
+                
+                [self.bottomLine setHidden:YES];
+            }if (self.logingUserType == UserType_DM) {
+                if (self.longpressShowDetial) {
+                    self.longpressShowDetial();
+                }
+            }
         }
             break;
         case UIGestureRecognizerStateChanged:
@@ -310,6 +321,7 @@ block(object); \
     }
     return _meetBtn;
 }
+
 
 - (void)updateSubViewsFrame{
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {

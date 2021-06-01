@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="TaskInfoCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="科室:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mbe-Ni-9x8">
+                        <rect key="frame" x="20" y="12" width="42" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Fb0-ae-Ba4"/>
+                            <constraint firstAttribute="width" constant="42" id="Jnp-SV-0YW"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="内科" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mgb-8d-tO8">
+                        <rect key="frame" x="67" y="12" width="29" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="80" id="v0r-yF-hcm"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="医生:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p2w-va-EQI">
+                        <rect key="frame" x="106" y="12" width="42" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="42" id="61T-mG-vPd"/>
+                            <constraint firstAttribute="height" constant="20" id="JFY-nt-hOe"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkq-cr-vDb">
+                        <rect key="frame" x="153" y="12" width="0.0" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="60" id="peu-f5-84w"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="p2w-va-EQI" firstAttribute="leading" secondItem="Mgb-8d-tO8" secondAttribute="trailing" constant="10" id="5md-ll-crB"/>
+                    <constraint firstItem="p2w-va-EQI" firstAttribute="width" secondItem="Mbe-Ni-9x8" secondAttribute="width" id="5nz-3C-zq7"/>
+                    <constraint firstItem="tkq-cr-vDb" firstAttribute="leading" secondItem="p2w-va-EQI" secondAttribute="trailing" constant="5" id="AbX-qH-oOP"/>
+                    <constraint firstItem="tkq-cr-vDb" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="CvK-1P-drU"/>
+                    <constraint firstItem="Mbe-Ni-9x8" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="GVc-aK-ESO"/>
+                    <constraint firstItem="Mgb-8d-tO8" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="JfV-6d-Sw4"/>
+                    <constraint firstItem="tkq-cr-vDb" firstAttribute="height" secondItem="Mbe-Ni-9x8" secondAttribute="height" id="LKR-a7-89s"/>
+                    <constraint firstItem="p2w-va-EQI" firstAttribute="height" secondItem="Mbe-Ni-9x8" secondAttribute="height" id="VLp-mk-WW8"/>
+                    <constraint firstItem="Mbe-Ni-9x8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="c1V-hM-yPE"/>
+                    <constraint firstItem="Mgb-8d-tO8" firstAttribute="leading" secondItem="Mbe-Ni-9x8" secondAttribute="trailing" constant="5" id="gWj-rW-clN"/>
+                    <constraint firstItem="p2w-va-EQI" firstAttribute="leading" secondItem="Mgb-8d-tO8" secondAttribute="trailing" constant="10" id="jde-rq-3mI"/>
+                    <constraint firstItem="Mgb-8d-tO8" firstAttribute="height" secondItem="Mbe-Ni-9x8" secondAttribute="height" id="sXz-DB-0we"/>
+                    <constraint firstItem="p2w-va-EQI" firstAttribute="height" secondItem="Mbe-Ni-9x8" secondAttribute="height" id="vUb-kM-XII"/>
+                    <constraint firstItem="p2w-va-EQI" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zI1-x4-j23"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="departmentLab" destination="Mbe-Ni-9x8" id="m09-bP-dOJ"/>
+                <outlet property="departmentNameLab" destination="Mgb-8d-tO8" id="tXM-gA-9ek"/>
+                <outlet property="doctorLab" destination="p2w-va-EQI" id="zDR-Hd-AaZ"/>
+                <outlet property="doctorNameLab" destination="tkq-cr-vDb" id="qZc-II-3Zr"/>
+            </connections>
+            <point key="canvasLocation" x="-126" y="6"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -31,6 +31,7 @@ typedef void(^endDragAndDrop)(ScheduleView * taskView,NSInteger dragLength);
 
 typedef void(^taskAction)(TaskActionType type);
 
+typedef void(^longpressShowDetial)(void);
 
 @interface ScheduleView : UIView
 
@@ -47,6 +48,9 @@ typedef void(^taskAction)(TaskActionType type);
 @property(nonatomic,copy)endDragAndDrop endDragAndDrop;
 
 @property(nonatomic,copy)taskAction taskAction;///<任务执行事件
+
+@property(nonatomic,copy)longpressShowDetial longpressShowDetial;///<DM角色长按
+
 
 - (instancetype)initWithFrame:(CGRect)frame userType:(UserType)userType;
 

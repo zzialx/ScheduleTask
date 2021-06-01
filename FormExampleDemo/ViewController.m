@@ -19,6 +19,7 @@
 #import "HspTaskSceduleView.h"
 #import "ScheduleListCollectionViewCell.h"
 #import "ScheduleItemModel.h"
+#import "TaskInfoView.h"
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -59,6 +60,9 @@ static NSString *const cellID = @"cellID_pageHorizon";
 
 @property(nonatomic,assign)CGFloat offsetY;
 
+@property(nonatomic,strong)TaskInfoView * detialInfoView;///<DM角色显示的view
+
+
 @end
 
 @implementation ViewController
@@ -95,14 +99,8 @@ static NSString *const cellID = @"cellID_pageHorizon";
 - (void)addTaskViewWithIndexPathItemModel:(ScheduleItemModel*)itemModel{
     PageHorizontalCollectionViewCell * cell  = (PageHorizontalCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:itemModel.indexPath];
     if (cell!=nil) {
-        ScheduleView * taskView = [[ScheduleView alloc]initWithFrame:CGRectMake(cell.frame.origin.x,cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height * itemModel.timeLength) userType:UserType_MR];
+        __block ScheduleView * taskView = [[ScheduleView alloc]initWithFrame:CGRectMake(cell.frame.origin.x,cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height * itemModel.timeLength) userType:UserType_DM];
         [self.collectionView addSubview:taskView];
-//        [taskView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(cell);
-//            make.right.equalTo(cell);
-//            make.top.equalTo(cell);
-//            make.height.mas_equalTo(cell.frame.size.height * itemModel.timeLength);
-//        }];
         BOOL isCover = [self chargeDifferentView:taskView];
         if (isCover) {
             NSLog(@"存在覆盖的view");
@@ -119,10 +117,26 @@ static NSString *const cellID = @"cellID_pageHorizon";
         [self.scheduleDataArray addObject:taskView];
         NSLog(@"collectionView上任务位置===%@",taskView);
         NSLog(@"上传完成之后需要存储数据库");
+        WSWeakSelf(self);
         [taskView setTaskAction:^(TaskActionType type) {
                             
         }];
-        }
+        [taskView setLongpressShowDetial:^{
+            [weakSelf showDetialInfoView:taskView];
+        }];
+    }
+}
+- (void)showDetialInfoView:(ScheduleView*)taskView{
+    self.detialInfoView = [[TaskInfoView alloc]initWithFrame:CGRectZero];
+    [self.collectionView addSubview:self.detialInfoView];
+    [self.detialInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(taskView.mas_right).offset(2);
+        make.top.equalTo(taskView);
+        make.width.mas_equalTo(300);
+        make.height.mas_equalTo(260);
+    }];
+    self.detialInfoView.layer.cornerRadius = 8.0;
+    self.detialInfoView.clipsToBounds = YES;
 }
 
 #pragma mark-----------------------ACTION-----------------------
@@ -341,12 +355,14 @@ static NSString *const cellID = @"cellID_pageHorizon";
         // 使用UICollectionView必须设置UICollectionViewLayout属性
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         [self.view addSubview:_collectionView];
-        [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.calenderView.mas_bottom).with.offset(30);
-            make.left.equalTo(self.view);
-            make.width.mas_equalTo(SCREEN_WIDTH-(SCREEN_WIDTH-7)/9);
-            make.bottom.equalTo(self.view).offset(-20);
-        }];
+        _collectionView.frame  = CGRectMake(0, CGRectGetMaxY(self.calenderView.frame), SCREEN_WIDTH-ITEM_WIDTH, SCREEN_HEIGHT-CGRectGetMaxY(self.calenderView.frame)-20);
+
+//        [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.calenderView.mas_bottom).with.offset(30);
+//            make.left.equalTo(self.view);
+//            make.width.mas_equalTo(SCREEN_WIDTH-(SCREEN_WIDTH-7)/9);
+//            make.bottom.equalTo(self.view).offset(-20);
+//        }];
         _collectionView.backgroundColor = [UIColor lightGrayColor];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
@@ -366,7 +382,11 @@ static NSString *const cellID = @"cellID_pageHorizon";
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     
     self.offsetY = scrollView.contentOffset.y;
-    
+    //滚动结束移除弹框 ,移除DM角色
+    if (self.detialInfoView) {
+        [self.detialInfoView removeFromSuperview];
+        self.detialInfoView = nil;
+    }
 }
 
 /// ** setContentOffset改变会调用scrollViewDidEndScrollingAnimation代理方法 **

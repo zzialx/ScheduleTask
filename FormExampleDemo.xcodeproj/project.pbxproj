@@ -18,6 +18,11 @@
 		6D7C449C259C564E005E5D76 /* ScheduleListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7C449B259C564E005E5D76 /* ScheduleListCollectionViewCell.m */; };
 		6D7C449F259C5A1A005E5D76 /* HspTaskSceduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7C449E259C5A1A005E5D76 /* HspTaskSceduleView.m */; };
 		6D7C44A2259C7FEA005E5D76 /* TaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7C44A1259C7FEA005E5D76 /* TaskView.m */; };
+		6D9F27702665DFF9003D4321 /* TaskInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9F276F2665DFF9003D4321 /* TaskInfoView.m */; };
+		6D9F277526660A43003D4321 /* TaskInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9F277326660A43003D4321 /* TaskInfoCell.m */; };
+		6D9F277626660A43003D4321 /* TaskInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D9F277426660A43003D4321 /* TaskInfoCell.xib */; };
+		6D9F277B26660FCA003D4321 /* PlanMeetingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9F277926660FCA003D4321 /* PlanMeetingCell.m */; };
+		6D9F277C26660FCA003D4321 /* PlanMeetingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D9F277A26660FCA003D4321 /* PlanMeetingCell.xib */; };
 		6DBCE94825947181005B5E44 /* ScheduleItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBCE94725947181005B5E44 /* ScheduleItemModel.m */; };
 		6DBCE94B25947837005B5E44 /* ScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBCE94A25947837005B5E44 /* ScheduleView.m */; };
 		6DCC3048265DEE0100B8BA5F /* TopTimeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC3047265DEE0100B8BA5F /* TopTimeLabel.m */; };
@@ -56,6 +61,14 @@
 		6D7C449E259C5A1A005E5D76 /* HspTaskSceduleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HspTaskSceduleView.m; sourceTree = "<group>"; };
 		6D7C44A0259C7FEA005E5D76 /* TaskView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskView.h; sourceTree = "<group>"; };
 		6D7C44A1259C7FEA005E5D76 /* TaskView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskView.m; sourceTree = "<group>"; };
+		6D9F276E2665DFF9003D4321 /* TaskInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskInfoView.h; sourceTree = "<group>"; };
+		6D9F276F2665DFF9003D4321 /* TaskInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskInfoView.m; sourceTree = "<group>"; };
+		6D9F277226660A43003D4321 /* TaskInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskInfoCell.h; sourceTree = "<group>"; };
+		6D9F277326660A43003D4321 /* TaskInfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskInfoCell.m; sourceTree = "<group>"; };
+		6D9F277426660A43003D4321 /* TaskInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskInfoCell.xib; sourceTree = "<group>"; };
+		6D9F277826660FCA003D4321 /* PlanMeetingCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlanMeetingCell.h; sourceTree = "<group>"; };
+		6D9F277926660FCA003D4321 /* PlanMeetingCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlanMeetingCell.m; sourceTree = "<group>"; };
+		6D9F277A26660FCA003D4321 /* PlanMeetingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlanMeetingCell.xib; sourceTree = "<group>"; };
 		6DBCE94725947181005B5E44 /* ScheduleItemModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScheduleItemModel.m; sourceTree = "<group>"; };
 		6DBCE94925947837005B5E44 /* ScheduleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheduleView.h; sourceTree = "<group>"; };
 		6DBCE94A25947837005B5E44 /* ScheduleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScheduleView.m; sourceTree = "<group>"; };
@@ -160,12 +173,20 @@
 				6D40470B259208B500B89EC4 /* PageHorizontalCollectionViewCell.m */,
 				6D7C449A259C5641005E5D76 /* ScheduleListCollectionViewCell.h */,
 				6D7C449B259C564E005E5D76 /* ScheduleListCollectionViewCell.m */,
+				6D9F277226660A43003D4321 /* TaskInfoCell.h */,
+				6D9F277326660A43003D4321 /* TaskInfoCell.m */,
+				6D9F277426660A43003D4321 /* TaskInfoCell.xib */,
+				6D9F277826660FCA003D4321 /* PlanMeetingCell.h */,
+				6D9F277926660FCA003D4321 /* PlanMeetingCell.m */,
+				6D9F277A26660FCA003D4321 /* PlanMeetingCell.xib */,
 				6D7C449D259C5A1A005E5D76 /* HspTaskSceduleView.h */,
 				6D7C449E259C5A1A005E5D76 /* HspTaskSceduleView.m */,
 				6D7C44A0259C7FEA005E5D76 /* TaskView.h */,
 				6D7C44A1259C7FEA005E5D76 /* TaskView.m */,
 				6DBCE94925947837005B5E44 /* ScheduleView.h */,
 				6DBCE94A25947837005B5E44 /* ScheduleView.m */,
+				6D9F276E2665DFF9003D4321 /* TaskInfoView.h */,
+				6D9F276F2665DFF9003D4321 /* TaskInfoView.m */,
 				6DCC3046265DEE0100B8BA5F /* TopTimeLabel.h */,
 				6DCC3047265DEE0100B8BA5F /* TopTimeLabel.m */,
 			);
@@ -282,9 +303,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D9F277626660A43003D4321 /* TaskInfoCell.xib in Resources */,
 				6D4046FF2591F94700B89EC4 /* LaunchScreen.storyboard in Resources */,
 				6D4046FC2591F94700B89EC4 /* Assets.xcassets in Resources */,
 				6D4046FA2591F94400B89EC4 /* Main.storyboard in Resources */,
+				6D9F277C26660FCA003D4321 /* PlanMeetingCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,7 +343,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D9F277526660A43003D4321 /* TaskInfoCell.m in Sources */,
 				6DE11E922599C30700CEA648 /* BXHCalendarLayout.m in Sources */,
+				6D9F277B26660FCA003D4321 /* PlanMeetingCell.m in Sources */,
 				6D4046F72591F94400B89EC4 /* ViewController.m in Sources */,
 				6DBCE94825947181005B5E44 /* ScheduleItemModel.m in Sources */,
 				6DE11E942599C30700CEA648 /* NSDate+BXHCategory.m in Sources */,
@@ -332,6 +357,7 @@
 				6D7C449F259C5A1A005E5D76 /* HspTaskSceduleView.m in Sources */,
 				6DE11EB4259B04B600CEA648 /* LeftViewController.m in Sources */,
 				6D7C449C259C564E005E5D76 /* ScheduleListCollectionViewCell.m in Sources */,
+				6D9F27702665DFF9003D4321 /* TaskInfoView.m in Sources */,
 				6DE11EB1259B03B400CEA648 /* MianRootViewController.m in Sources */,
 				6DCC3048265DEE0100B8BA5F /* TopTimeLabel.m in Sources */,
 				6DE11E992599C30700CEA648 /* BXHCalenderIndexPath.m in Sources */,
