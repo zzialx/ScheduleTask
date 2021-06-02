@@ -27,8 +27,15 @@
 #define WSStrongSelf(type)  __strong __typeof(type) type = weak##type;
 
 #define ITEM_HEIGHT  550/11
+
 #define ITEM_WIDTH   (SCREEN_WIDTH-7)/9
+
 #define ITEM_WIDTH5  (SCREEN_WIDTH-5)/7
+
+#define DM_INFO_HEIGHT  260
+
+#define DM_INFO_WIDTH  300
+
 
 static NSString *const cellID = @"cellID_pageHorizon";
 
@@ -97,6 +104,7 @@ static NSString *const cellID = @"cellID_pageHorizon";
 }
 ///显示日程view
 - (void)addTaskViewWithIndexPathItemModel:(ScheduleItemModel*)itemModel{
+    [self removeDetialInfoView];
     PageHorizontalCollectionViewCell * cell  = (PageHorizontalCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:itemModel.indexPath];
     if (cell!=nil) {
         __block ScheduleView * taskView = [[ScheduleView alloc]initWithFrame:CGRectMake(cell.frame.origin.x,cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height * itemModel.timeLength) userType:UserType_DM];
@@ -127,23 +135,48 @@ static NSString *const cellID = @"cellID_pageHorizon";
     }
 }
 - (void)showDetialInfoView:(ScheduleView*)taskView{
-    self.detialInfoView = [[TaskInfoView alloc]initWithFrame:CGRectZero];
+    
+    [self removeDetialInfoView];
+    
+    self.detialInfoView = [[TaskInfoView alloc]initWithFrame:CGRectZero hostDate:taskView.itemModel.hostDate];
+    
     [self.collectionView addSubview:self.detialInfoView];
+    
     [self.detialInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        if (CGRectGetMaxX(taskView.frame)+ DM_INFO_WIDTH > SCREEN_WIDTH - ITEM_WIDTH){
+            make.right.equalTo(taskView.mas_left).offset(-2);
+        }else{
+            make.left.equalTo(taskView.mas_right).offset(2);
+        }
         make.left.equalTo(taskView.mas_right).offset(2);
-        make.top.equalTo(taskView);
-        make.width.mas_equalTo(300);
-        make.height.mas_equalTo(260);
+        
+        if (CGRectGetMaxY(taskView.frame)+ DM_INFO_HEIGHT > SCREEN_HEIGHT) {
+            make.bottom.equalTo(taskView);
+        }else{
+            make.top.equalTo(taskView);
+        }
+        make.width.mas_equalTo(DM_INFO_WIDTH);
+        make.height.mas_equalTo(DM_INFO_HEIGHT);
     }];
+    
     self.detialInfoView.layer.cornerRadius = 8.0;
+    
     self.detialInfoView.clipsToBounds = YES;
 }
-
+- (void)removeDetialInfoView{
+    if (self.detialInfoView) {
+        [self.detialInfoView  removeFromSuperview];
+        self.detialInfoView = nil;
+    }
+}
 #pragma mark-----------------------ACTION-----------------------
 - (void)showFullScreenAction{
     NSLog(@"显示全屏");
+    [self removeDetialInfoView];
 }
 - (void)showWeekendAction{
+    [self removeDetialInfoView];
     self.viemModel.showWeekend = !self.viemModel.showWeekend;
     if (self.viemModel.showWeekend) {
         _collectionView.frame  = CGRectMake(0, CGRectGetMaxY(self.calenderView.frame), SCREEN_WIDTH-ITEM_WIDTH, _collectionView.frame.size.height);
@@ -153,8 +186,6 @@ static NSString *const cellID = @"cellID_pageHorizon";
         _collectionView.frame  = CGRectMake(0, CGRectGetMaxY(self.calenderView.frame), SCREEN_WIDTH-ITEM_WIDTH5, _collectionView.frame.size.height);
         [self.calenderView showWeekend:NO];
         [self getDataListShowWeekend:NO];
-        
-        
     }
 }
 #pragma mark-----------------------日期代理方法-----------------------
@@ -164,6 +195,7 @@ static NSString *const cellID = @"cellID_pageHorizon";
     NSLog(@"开始日期====%@",[NSString stringWithFormat:@"%@",[monthView.beaginDate bxh_stringWithFormate:@"yyyy-MM-dd"]]);
     self.viemModel.currentStartDate = [NSString stringWithFormat:@"%@",[monthView.beaginDate bxh_stringWithFormate:@"yyyy-MM-dd"]];
     self.viemModel.currentEndDate = [self.viemModel computeDateWithDays:6 startDate:self.viemModel.currentStartDate];
+    //重新加载选择这一周的数据
     [self updateSelectWeekData];
 }
 
@@ -262,11 +294,10 @@ static NSString *const cellID = @"cellID_pageHorizon";
             //判断选择的任务存放的日期是否是周末
             if (weakSelf.viemModel.showWeekend) {
                 item.isWeekDay = item.horizontalAxis==1||item.horizontalAxis ==7?YES:NO;
-                item.hostDate = @"";
+                item.hostDate = [weakSelf.viemModel computeDateWithDays:item.horizontalAxis-1 startDate:weakSelf.viemModel.currentStartDate];
             }else{
-                item.hostDate = @"";
+                item.hostDate = [weakSelf.viemModel computeDateWithDays:item.horizontalAxis startDate:weakSelf.viemModel.currentStartDate];
             }
-            
             [weakSelf addTaskViewWithIndexPathItemModel:item];
         }];
     }
@@ -421,7 +452,9 @@ static NSString *const cellID = @"cellID_pageHorizon";
                                 }else{
                                     NSInteger item = taskView.indexPath.item;
                                     //item转化，索引值转化
-                                    item = item + (long)(item/6 +1) * 2  +  1;
+                                    NSLog(@"开始的item===%ld",(long)item);
+                                    item = item%6 + item/6 * 8 + 1;
+                                    NSLog(@"转化后的item===%ld",(long)item);
                                     NSIndexPath * updateIndexPath = [NSIndexPath indexPathForItem:item inSection:0];
                                     PageHorizontalCollectionViewCell * cell  = (PageHorizontalCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:updateIndexPath];
                                     if (cell) {

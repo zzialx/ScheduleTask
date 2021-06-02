@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskInfoView : UIView
 
+- (instancetype)initWithFrame:(CGRect)frame hostDate:(NSString*)hostDate;
+
 @end
 
 NS_ASSUME_NONNULL_END

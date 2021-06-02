@@ -10,6 +10,7 @@
 #import "TaskInfoCell.h"
 #import "PlanMeetingCell.h"
 #import <Masonry.h>
+#import "ScheduleViewModel.h"
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 
@@ -20,34 +21,54 @@ static NSString * meetingcell = @"PlanMeetingCell";
 
 @interface TaskInfoView ()<UITableViewDelegate,UITableViewDataSource>
 
-@property(nonatomic,strong)UILabel * visitLab;///<拜访项
-
-@property(nonatomic,strong)UILabel * meetLab;///<会议项
-
 @property(nonatomic,strong)UITableView * tableView;
+
+@property(nonatomic,assign)BOOL isShowVisitState;
 
 @end
 
 @implementation TaskInfoView
 
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame hostDate:(NSString*)hostDate{
     self = [super initWithFrame:frame];
     if (self) {
         
         self.backgroundColor = [UIColor colorWithRed:242.0/255 green:195.0/255 blue:121.0/255 alpha:1.0];
         
+        [self uploaddataInfoWithHostDate:hostDate];
+        
         [self setSubViewUI];
     }
     return  self;
 }
+- (void)uploaddataInfoWithHostDate:(NSString*)hostDateStr{
+    
+    NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
+    
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    formatter.timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];//东八区时间
 
+    NSInteger compare =  [ScheduleViewModel timeCompare:hostDateStr];
+    
+    NSLog(@"=======%ld",(long)compare);
+    
+    if (compare==0) {
+        self.isShowVisitState = YES;
+    }else{
+        self.isShowVisitState = NO;
+    }
+    
+}
 - (void)setSubViewUI{
+    
     [self tableView];
+    
 }
 
 - (UITableView*)tableView{
     if (_tableView==nil) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         [self addSubview:_tableView];
         [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self).with.insets(UIEdgeInsetsMake(10, 10, 10, 0));
@@ -93,7 +114,9 @@ static NSString * meetingcell = @"PlanMeetingCell";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 30;
+}
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 3;
 }
@@ -104,27 +127,11 @@ static NSString * meetingcell = @"PlanMeetingCell";
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UILabel * nameLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 10,SCREEN_WIDTH-20 , 20)];
     [self addSubview:nameLab];
-    nameLab.text = section==0?@"计划拜访:":@"计划会议:";
+    nameLab.text = self.isShowVisitState?(section==0?@"实际拜访:":@"实际会议:"):(section==0?@"计划拜访:":@"计划会议:");
     nameLab.textAlignment = NSTextAlignmentLeft;
     nameLab.font = [UIFont systemFontOfSize:16];
     [nameLab setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17]];
     return nameLab;
-}
-- (UILabel*)visitLab{
-    if (_visitLab==nil) {
-        _visitLab = [[UILabel alloc]initWithFrame:CGRectZero];
-        [self addSubview:_visitLab];
-        [_visitLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(20);
-            make.left.equalTo(self).offset(10);
-            make.right.equalTo(self).offset(-10);
-            make.height.mas_equalTo(20);
-        }];
-        _visitLab.text = @"计划拜访:";
-        _visitLab.textAlignment = NSTextAlignmentLeft;
-        _visitLab.font = [UIFont systemFontOfSize:16];
-    }
-    return _visitLab;
 }
 
 @end

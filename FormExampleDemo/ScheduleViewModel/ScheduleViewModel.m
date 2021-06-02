@@ -118,7 +118,7 @@
 //        NSLog(@"计算时长=====%ld",(long)[self getTimeLengthWithStartTime:model.starttime endTime:model.endtime]);
         model.timeLength =  [self getTimeLengthWithStartTime:model.starttime endTime:model.endtime];
         model.taskType = TaskType_NeiBu;
-        model.hostDate = [NSString stringWithFormat: @"2021-05-2%d",i];
+        model.hostDate = [NSString stringWithFormat: @"2021-06-0%d",i];
         model.isWeekDay = [self isSelectDateWeekDay:[self weekdayStringWithDate:model.hostDate]];
     
         //计算出来时间段的索引
@@ -238,9 +238,7 @@
                     millisecond = millisecond + 30 * 60 * 1000 * (i - 8);
                     showtime =  [dateFormatter stringFromDate:[[NSDate alloc]initWithTimeIntervalSince1970:millisecond/1000.0]];
                 } else {
-                    
                     showtime = [NSString stringWithFormat:@""];
-                    
                 }
                 [scheduleList addObject:showtime];
             }
@@ -324,6 +322,23 @@
     timelength = (endtime_millisecond - starttime_millisecond)/30/60/1000;
     
     return timelength;
+}
++ (NSInteger)timeCompare:(NSString*)dateStr{
+    NSDate *date = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
+    NSDate *dateA = [dateFormatter dateFromString:[dateFormatter stringFromDate:date]];
+    NSDate *dateB = [dateFormatter dateFromString:dateStr];
+    NSComparisonResult result = [dateA compare:dateB];
+    if (result == NSOrderedDescending) {
+        return 0; //今天之前
+    }
+    else if (result == NSOrderedAscending){
+        return 1;//今天之后
+    }
+    return 2;//今天
+    
 }
 
 @end

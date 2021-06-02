@@ -66,6 +66,13 @@ typedef void(^fail)(void);
 - (NSString *)computeDateWithDays:(NSInteger)days startDate:(NSString*)startDate;
 
 
+/// 比较日期 0; //今天之前 1;//今天之后  2;//今天
+/// @param dateStr 选择日期
++ (NSInteger)timeCompare:(NSString*)dateStr;
+
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

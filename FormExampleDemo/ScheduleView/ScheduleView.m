@@ -203,9 +203,14 @@ block(object); \
                 
                 [self.bottomLine setHidden:YES];
             }if (self.logingUserType == UserType_DM) {
-                if (self.longpressShowDetial) {
-                    self.longpressShowDetial();
+                if (self.itemModel.taskType != TaskType_NeiBu) {
+                    if (self.longpressShowDetial) {
+                        self.longpressShowDetial();
+                    }
+                }else{
+                    NSLog(@"内部会不支持长按");
                 }
+                
             }
         }
             break;
