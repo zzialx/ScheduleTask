@@ -12,7 +12,7 @@
 
 #define ITEM_HEIGHT  550/11
 
-#define BTN_H  30
+#define BTN_H  20.0
 
 #define BTN_PAD  5
 
@@ -80,7 +80,9 @@ block(object); \
     [self updateSubViewsFrame];
     //长按拖动
     UIPanGestureRecognizer *panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGRAct:)];
+    
     [self.bottomLine addGestureRecognizer:panGR];
+    
     self.panGR = panGR;
 }
 
@@ -107,38 +109,49 @@ block(object); \
 }
 #pragma mark--------------USER ACTION------------
 - (void)delTaskAction{
-    NSLog(@"删除任务");
+    NSLog(@"MR角色：删除任务");
     __object_block_return(self.taskAction,TaskActionDel_Type);
 }
 - (void)executeTaskAction{
-    NSLog(@"执行任务");
+    NSLog(@"MR角色：执行任务");
     __object_block_return(self.taskAction,TaskActionExecute_Type);
 }
 - (void)editTaskAction{
     if (self.itemModel.taskType == TaskType_Area) {
-        NSLog(@"编辑任务");
+        NSLog(@"MR角色：编辑任务");
         __object_block_return(self.taskAction,TaskActionEdit_Type);
     }if (self.itemModel.taskType == TaskType_VistiMeeting) {
-        NSLog(@"医生任务");
+        NSLog(@"MR角色：医生任务");
         __object_block_return(self.taskAction,TaskActionDoctor_Type);
     }
 }
 - (void)meetTaskAction{
-    NSLog(@"会议任务");
+    NSLog(@"MR角色：会议任务");
     __object_block_return(self.taskAction,TaskActionMeeting_Type);
 }
 - (void)panGRAct: (UIPanGestureRecognizer *)rec{
+    self.isOutBorderDraging = NO;
     CGPoint point = [rec translationInView:self];
-    NSLog(@"长按拉动%f,%f",point.x,point.y);
+//    NSLog(@"长按拉动%f,%f",point.x,point.y);
     CGFloat scrollY = point.y;
     if (scrollY>0) {
-        NSLog(@"向下拉=====%f========%ld",floor(scrollY/50),self.itemModel.verticalAxis);
-        CGFloat scrollIndex = floor (scrollY/50);
-        if (scrollIndex + self.itemModel.verticalAxis >23) {
+        NSLog(@"向下拉=====%f====索引====%ld",floor(scrollY/50),self.itemModel.verticalAxis);
+        NSLog(@"***************");
+        NSLog(@"拖动：%f",scrollY);
+        NSLog(@"***************");
+        if (scrollY + self.lastHeight > (40 - self.itemModel.verticalAxis) * ITEM_HEIGHT) {
             NSLog(@"滑动出格了，不再监听拖动状态");
             self.isOutBorderDraging = YES;
+            self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,(40 - self.itemModel.verticalAxis) * ITEM_HEIGHT);
             return;
         }
+        //边界判断有问题
+//        CGFloat scrollIndex = floor (scrollY/50);
+//        if (scrollIndex + self.itemModel.verticalAxis >39) {
+//            NSLog(@"滑动出格了，不再监听拖动状态");
+//            self.isOutBorderDraging = YES;
+//            return;
+//        }
     }
     switch (rec.state) {
             case UIGestureRecognizerStateChanged:
@@ -151,35 +164,40 @@ block(object); \
                 //向下拉
                 NSLog(@"向下拉=====%f",floor(scrollY/50));
                 //向下取整
-                [UIView animateWithDuration:1 animations:^{
-                                    
-                                } completion:^(BOOL finished) {
-                                    CGFloat scrollH = floor (scrollY/50)*ITEM_HEIGHT;
-                                   
-                                    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,scrollH + self.lastHeight);
-                                }];
+                CGFloat scrollH = floor (scrollY/50)*ITEM_HEIGHT;
+                 
+                self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,scrollH + self.lastHeight);
                
             }else{
                 //向上拉
+                if (fabs(scrollY)>=(ITEM_HEIGHT/2)) {
+                    
+                    NSLog(@"向上滑动距离==%f",scrollY);
+                }else{
+                    
+                    NSLog(@"向上滑动距离大于item的一半才允许计算");
+                    return;
+                }
                 NSLog(@"向上拉=======%f",fabs(scrollY)/50);
                 NSLog(@"向上取值=======%f",ceilf(fabs(scrollY)/50));
-                if ((self.lastHeight- (floor(fabs(scrollY)/50))*ITEM_HEIGHT)==0 ) {
-                    [UIView animateWithDuration:1 animations:^{
-                                    
-                                    } completion:^(BOOL finished) {
-                                        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,ITEM_HEIGHT);
-                                        [self removeFromSuperview];
-                                    }];
+                NSLog(@"向上减少索引=======%f",floor(fabs(scrollY)/50));
+                NSLog(@"向上高度=====%f",self.lastHeight);
+                if ((self.lastHeight- (floor(fabs(scrollY)/50))*ITEM_HEIGHT) <= 0 ) {
+                    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,ITEM_HEIGHT);
+                    
                 }else{
-                    [UIView animateWithDuration:1 animations:^{
-                                    
-                                    } completion:^(BOOL finished) {
-                                        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,self.lastHeight- (floor(fabs(scrollY)/50))*ITEM_HEIGHT);
-                                    }];
-                }
-                
-               
-                }
+                        if (self.lastHeight- (floor(fabs(scrollY)/50))*ITEM_HEIGHT <=0 ) {
+                            self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,ITEM_HEIGHT);
+                        }else{
+                            [UIView animateWithDuration:1 animations:^{
+                                                            
+                                                        } completion:^(BOOL finished) {
+                                                            self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,self.lastHeight- (floor(fabs(scrollY)/50))*ITEM_HEIGHT);
+                                                        }];
+                            
+                        }
+                    }
+            }
             break;
             case UIGestureRecognizerStateEnded:
             self.lastHeight = self.frame.size.height;
@@ -188,6 +206,9 @@ block(object); \
             break;
             case UIGestureRecognizerStateCancelled:
             NSLog(@"拖动取消");
+            break;
+            case UIGestureRecognizerStateFailed:
+            NSLog(@"手势识别失败");
             break;
             default:
             break;
@@ -336,7 +357,7 @@ block(object); \
         make.left.equalTo(self.contentView);
         make.right.equalTo(self.contentView);
         make.bottom.equalTo(self.contentView).with.offset(0);
-        make.height.mas_equalTo(30.0);
+        make.height.mas_equalTo(BTN_H);
     }];
     
     [self.delBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -349,8 +370,8 @@ block(object); \
     [self.executeBTn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView);
         make.left.equalTo(self.contentView).mas_offset(BTN_PAD);
-        make.height.mas_equalTo(BTN_H);
-        make.width.mas_equalTo(BTN_H);
+        make.height.mas_equalTo((self.frame.size.width-34)/3);
+        make.width.mas_equalTo((self.frame.size.width-34)/3);
     }];
     
     [self.editBtn mas_makeConstraints:^(MASConstraintMaker *make) {

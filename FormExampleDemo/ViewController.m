@@ -107,7 +107,7 @@ static NSString *const cellID = @"cellID_pageHorizon";
     [self removeDetialInfoView];
     PageHorizontalCollectionViewCell * cell  = (PageHorizontalCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:itemModel.indexPath];
     if (cell!=nil) {
-        __block ScheduleView * taskView = [[ScheduleView alloc]initWithFrame:CGRectMake(cell.frame.origin.x,cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height * itemModel.timeLength) userType:UserType_DM];
+        __block ScheduleView * taskView = [[ScheduleView alloc]initWithFrame:CGRectMake(cell.frame.origin.x,cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height * itemModel.timeLength) userType:UserType_MR];
         [self.collectionView addSubview:taskView];
         BOOL isCover = [self chargeDifferentView:taskView];
         if (isCover) {
@@ -492,8 +492,6 @@ static NSString *const cellID = @"cellID_pageHorizon";
                                     }else{
                                         NSLog(@"不在可视区域内，无法找到cell===%ld",(long)item);
 //                                            self.needOpenCellIndexPath = updateIndexPath;
-                                       
-
                                     }
                                 }else{
                                     NSInteger item = taskView.indexPath.item;
@@ -504,7 +502,6 @@ static NSString *const cellID = @"cellID_pageHorizon";
                                         taskView.frame = frame;
                                     }else{
                                         NSLog(@"不在可视区域内，无法找到cell");
-                                       
                                     }
                                 }
                             }else{
